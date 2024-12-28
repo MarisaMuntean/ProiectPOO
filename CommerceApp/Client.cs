@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace CommerceApp
 {
-    internal class Client
+    internal class Client : Utilizator
     {
+        public Client(string id, string nume, string prenume, string email, string telefon, string adresa, string tip) :
+            base(id, nume, prenume, email, telefon, adresa, tip)
+        { }
     }
 }
