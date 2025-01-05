@@ -11,18 +11,18 @@ namespace ECommerceApp
 {
     internal class Comanda
     {
-        internal void FisaDeComanda(int idClient)
+        internal void FisaDeComanda(int idClient, string metodaPlata, string adresaLivrare)
         {
             string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Facultate/ANUL_2/POO/CommerceAPP/ECommerceApp.accdb";
 
             // Query pentru detalii client
-            string selectClientQuery = "SELECT Nume, Prenume, Adresa FROM UTILIZATOR WHERE ID = @idClient";
+            string selectClientQuery = "SELECT Nume, Prenume FROM UTILIZATOR WHERE ID = @idClient";
 
             // Query pentru produse din coș
             string selectCosQuery = "SELECT ID_Produs, Cantitate FROM COS WHERE ID_Client = @idClient";
 
             // Query pentru inserarea comenzii
-            string insertComandaQuery = "INSERT INTO COMENZI (Nume_Client, Prenume_Client, Status, Adresa_livrare, Data_Plasare, Data_livrarare, Valoarea_Comenzii) VALUES (@nume, @prenume, @status,@adresa,  @dataPlasare, @dataLivrare, @valoare)";
+            string insertComandaQuery = "INSERT INTO COMENZI (Nume_Client, Prenume_Client,Status, Adresa_livrare,  Data_Plasare, Data_livrarare, Valoarea_Comenzii, MetodaPlata) VALUES (@nume, @prenume, @status, @adresa, @dataPlasare, @dataLivrare, @valoare, @metodaPlata)";
 
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
@@ -34,18 +34,17 @@ namespace ECommerceApp
                     OleDbCommand selectClientCommand = new OleDbCommand(selectClientQuery, connection);
                     selectClientCommand.Parameters.Add("@idClient", OleDbType.Integer).Value = idClient;
 
-                    string nume = "", prenume = "", adresa = "";
+                    string nume = "", prenume = "";
                     using (OleDbDataReader clientReader = selectClientCommand.ExecuteReader())
                     {
                         if (clientReader.Read())
                         {
                             nume = clientReader["Nume"].ToString();
                             prenume = clientReader["Prenume"].ToString();
-                            adresa = clientReader["Adresa"].ToString();
                         }
                         else
                         {
-                            Console.WriteLine("Nu s-a găsit clientul specificat.");
+                            Console.WriteLine("Nu s-a gasit clientul specificat.");
                             return;
                         }
                     }
@@ -54,11 +53,12 @@ namespace ECommerceApp
                     OleDbCommand insertCommand = new OleDbCommand(insertComandaQuery, connection);
                     insertCommand.Parameters.Add("@nume", OleDbType.VarWChar).Value = nume;
                     insertCommand.Parameters.Add("@prenume", OleDbType.VarWChar).Value = prenume;
-                    insertCommand.Parameters.Add("@adresa", OleDbType.VarWChar).Value = adresa;
                     insertCommand.Parameters.Add("@status", OleDbType.VarWChar).Value = "în procesare";
+                    insertCommand.Parameters.Add("@adresa", OleDbType.VarWChar).Value = adresaLivrare; // Folosim adresa ca parametru
                     insertCommand.Parameters.Add("@dataPlasare", OleDbType.Date).Value = DateTime.Now;
                     insertCommand.Parameters.Add("@dataLivrare", OleDbType.Date).Value = DateTime.Now.AddDays(3);
                     insertCommand.Parameters.Add("@valoare", OleDbType.Currency).Value = 0; // Valoarea va fi calculată mai jos
+                    insertCommand.Parameters.Add("@metodaPlata", OleDbType.VarWChar).Value = metodaPlata;
 
                     insertCommand.ExecuteNonQuery();
 
@@ -71,7 +71,6 @@ namespace ECommerceApp
                     selectCosCommand.Parameters.Add("@idClient", OleDbType.Integer).Value = idClient;
 
                     int valoareTotala = 0;
-                    // Preluăm produsele din coș
                     using (OleDbDataReader cosReader = selectCosCommand.ExecuteReader())
                     {
                         while (cosReader.Read()) // Parcurgem fiecare rând din COS
@@ -86,7 +85,6 @@ namespace ECommerceApp
                             insertDetaliiCommand.Parameters.Add("@idProdus", OleDbType.Integer).Value = idProdus;
                             insertDetaliiCommand.Parameters.Add("@cantitate", OleDbType.Integer).Value = cantitate;
 
-                            // Executăm comanda pentru fiecare rând din coș
                             insertDetaliiCommand.ExecuteNonQuery();
 
                             // Calculăm valoarea totală a comenzii pentru fiecare produs
@@ -102,7 +100,6 @@ namespace ECommerceApp
                         }
                     }
 
-
                     // Actualizăm valoarea totală a comenzii
                     string updateValoareQuery = "UPDATE COMENZI SET Valoarea_Comenzii = @valoareTotala WHERE ID = @idComanda";
                     OleDbCommand updateValoareCommand = new OleDbCommand(updateValoareQuery, connection);
@@ -116,7 +113,7 @@ namespace ECommerceApp
                     deleteCosCommand.Parameters.Add("@idClient", OleDbType.Integer).Value = idClient;
                     deleteCosCommand.ExecuteNonQuery();
 
-                    Console.WriteLine("Comanda a fost plasată cu succes!");
+                    Console.WriteLine("Comanda a fost plasata cu succes!");
                 }
                 catch (Exception ex)
                 {
@@ -124,6 +121,7 @@ namespace ECommerceApp
                 }
             }
         }
+
 
 
     }
