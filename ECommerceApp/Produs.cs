@@ -14,6 +14,7 @@ namespace ECommerceApp
         internal int Pret { get; set; }
         internal int Stoc { get; set; }
         internal int Evaluare { get; set; }
+        internal string Reducere { get; set; } = "-";
 
         public Produs(string nume, string descriere, string categorie, int pret, int stoc, int evaluare)
         {

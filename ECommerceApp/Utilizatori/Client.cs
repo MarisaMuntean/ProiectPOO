@@ -8,8 +8,8 @@ namespace ECommerceApp.Utilizatori
 {
     internal class Client : Utilizator
     {
-        public Client(string id, string nume, string prenume, string email, string telefon, string adresa, string tip) :
-           base(id, nume, prenume, email, telefon, adresa, tip)
+        public Client(string nume, string prenume, string email, string telefon, string adresa, bool tip) :
+           base(nume, prenume, email, telefon, adresa,tip)
         { }
     }
 }
