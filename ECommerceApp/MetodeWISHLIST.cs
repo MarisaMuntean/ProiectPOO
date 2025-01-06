@@ -13,7 +13,7 @@ namespace ECommerceApp
 
         // Metoda pentru a adauga un produs în Wishlist
         // Metoda pentru a adauga un produs în Wishlist
-        public void AdaugaInWishlist(int idClient, int idProdus)
+        internal void AdaugaInWishlist(int idClient, int idProdus)
         {
             string query = "INSERT INTO WISHLIST (ID_Client, ID_Produs) VALUES (@idClient, @idProdus)";
 
@@ -36,7 +36,7 @@ namespace ECommerceApp
             }
         }
         // Metoda pentru a muta produsele din Wishlist în Cos
-        public void MutaDinWishlistInCos(int idClient, int idProdus, int cantitate)
+        internal void MutaDinWishlistInCos(int idClient, int idProdus, int cantitate)
         {
             string selectWishlistQuery = "SELECT ID_Produs FROM WISHLIST WHERE ID_Client = @idClient AND ID_Produs = @idProdus";
             string selectStocQuery = "SELECT Stoc FROM PRODUS WHERE ID = @idProdus";
@@ -113,7 +113,7 @@ namespace ECommerceApp
 
 
         // Metoda pentru a vizualiza Wishlist-ul
-        public void VizualizeazaWishlist(int idClient)
+        internal void VizualizeazaWishlist(int idClient)
         {
             string query = "SELECT P.ID, P.NumeProdus, P.Pret FROM WISHLIST W INNER JOIN PRODUS P ON W.ID_Produs = P.ID WHERE W.ID_Client = @idClient";
 
@@ -142,7 +142,7 @@ namespace ECommerceApp
         }
 
 
-        public void StergeProdusDinWishlist(int idClient, int idProdus)
+        internal void StergeProdusDinWishlist(int idClient, int idProdus)
         {
             string deleteQuery = "DELETE FROM WISHLIST WHERE ID_Client = @idClient AND ID_Produs = @idProdus";
 
