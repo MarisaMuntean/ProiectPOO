@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Data.OleDb;
 using System.Collections;
-using Microsoft.Office.Interop.Access;
 using System.Xml.Linq;
-using Microsoft.Office.Core;
 using System.Runtime.InteropServices;
 using Microsoft.VisualBasic;
 using ECommerceApp.Reduceri;
@@ -16,7 +14,7 @@ using ECommerceApp.Reduceri;
 
 namespace ECommerceApp.Utilizatori
 {
-    internal class AdminBD 
+    internal class AdminBD
     {
         private readonly string connString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source= Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\VisualStudioCommunityProjects\ProiectPOO\ECommerceApp\ECommerceApp.accdb";
 
@@ -102,13 +100,13 @@ namespace ECommerceApp.Utilizatori
                     while (deModificat)
                     {
                         Console.WriteLine("Ce doresti sa modifici?\n" +
-                       "1.Nume\n" +
-                       "2.Descriere\n" +
-                       "3.Pret\n" +
-                       "4.Stoc\n" +
-                       "5.Evaluare\n" +
-                       "6.Categorie\n" +
-                       "7.Nimic");
+                       "Nume\n" +
+                       "Descriere\n" +
+                       "Pret\n" +
+                       "Stoc\n" +
+                       "Evaluare\n" +
+                       "Categorie\n" +
+                       "Nimic");
                         input = Console.ReadLine().ToLower();
 
                         string query = "";
@@ -135,7 +133,7 @@ namespace ECommerceApp.Utilizatori
                                 input = Console.ReadLine();
                                 bool inputValid = int.TryParse(input, out pret);
                                 if (inputValid)
-                                {   
+                                {
                                     cmd.Parameters.AddWithValue("@Pret", pret);
                                     cmd.Parameters.AddWithValue("@ID", idCautat);
                                 }
@@ -168,7 +166,7 @@ namespace ECommerceApp.Utilizatori
                                 inputValid = int.TryParse(input, out evaluare);
                                 if (inputValid)
                                 {
-                                    cmd.Parameters.AddWithValue("@Evaluare",evaluare);
+                                    cmd.Parameters.AddWithValue("@Evaluare", evaluare);
                                     cmd.Parameters.AddWithValue("@ID", idCautat);
                                 }
                                 else
@@ -191,24 +189,30 @@ namespace ECommerceApp.Utilizatori
                                 Console.WriteLine("Nu exista caracteristica.");
                                 continue;
                         }
-                        if (deModificat == true)
+
+                        //daca este ceva de modificat
+
+                        try
                         {
-                            try
+                            connection.Open();
+                            if (!string.IsNullOrEmpty(query))
                             {
-                                connection.Open();
-                                if (!string.IsNullOrEmpty(query))
-                                {
-                                    cmd.CommandText = query;
-                                }
+                                cmd.CommandText = query;
                                 cmd.ExecuteNonQuery();
-                                connection.Close();
                                 Console.WriteLine("Modificarea a fost realizata!");
                             }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Eroare: " + ex.Message);
-                            }
+
                         }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Eroare: " + ex.Message);
+                        }
+                        finally
+                        {
+                            if (connection.State == System.Data.ConnectionState.Open)
+                                connection.Close();
+                        }
+
 
                     }
 
@@ -228,7 +232,7 @@ namespace ECommerceApp.Utilizatori
             string input = Console.ReadLine();
             bool succes = int.TryParse(input, out idProdusDeSters);
 
-
+            //daca este un numar din baza de date
             if (succes == true && idProdusDeSters <= UltimulID() && idProdusDeSters > 0)
             {
                 using (OleDbConnection connection = new OleDbConnection(connString))
@@ -272,6 +276,7 @@ namespace ECommerceApp.Utilizatori
         {
             using (OleDbConnection connection = new OleDbConnection(connString))
             {
+                //gaseste ultimul id
                 string ultimIdQuery = "SELECT TOP 1 ID FROM PRODUS ORDER BY ID DESC";
                 OleDbCommand ultimIdCmd = new OleDbCommand(ultimIdQuery, connection);
                 try
@@ -313,12 +318,12 @@ namespace ECommerceApp.Utilizatori
                         object valoareStoc = monitorizareStocCmd.ExecuteScalar();
                         if (valoareStoc != null)
                         {
-                            if (valoareStoc.Equals(5))
+                            if ((int)valoareStoc < 5)
                                 Console.WriteLine("Atentie! Mai sunt doar " + valoareStoc + " produse.");
                             else
                                 Console.WriteLine("Stoc disponibil.\n");
 
-                            Console.WriteLine("Doresti sa modifici cantitatea produsului?da/nu");
+                            Console.WriteLine("Doresti sa modifici cantitatea produsului? Da/Nu");
                             input = Console.ReadLine().ToLower();
 
                             if (input.Equals("da"))
@@ -369,24 +374,52 @@ namespace ECommerceApp.Utilizatori
         public void AplicareReducereProdus()
         {
 
-            Console.WriteLine("\nCe tip de reducere?\n\t" +
-                           "2+1\n\t" +
-                           "discount procent\n\t" +
+            Console.WriteLine("Ce tip de reducere?\n" +
+                           "2+1\n" +
+                           "discount procent\n" +
                            "discount fix");
             string tip = Console.ReadLine().ToLower();
             switch (tip)
             {
                 case "2+1":
                     DoiPlusUnu doiPlusUnu = new DoiPlusUnu();
-                    doiPlusUnu.AplicaReducerea();
+                    doiPlusUnu.AplicareReducereProdus();
                     break;
                 case "discount procent":
                     DiscountProcent discountProcent = new DiscountProcent();
-                    discountProcent.AplicaReducerea();
+                    discountProcent.AplicareReducereProdus();
                     break;
                 case "discount fix":
                     DiscountFix discountFix = new DiscountFix();
-                    discountFix.AplicaReducerea();
+                    discountFix.AplicareReducereProdus();
+                    break;
+                default:
+                    Console.WriteLine("Nu exista acest tip de reducere.");
+                    break;
+            }
+        }
+
+        public void AplicareReducereCategorie()
+        {
+
+            Console.WriteLine("Ce tip de reducere?\n" +
+                           "2+1\n" +
+                           "discount procent\n" +
+                           "discount fix");
+            string tip = Console.ReadLine().ToLower();
+            switch (tip)
+            {
+                case "2+1":
+                    DoiPlusUnu doiPlusUnu = new DoiPlusUnu();
+                    doiPlusUnu.AplicareReducereCategorie();
+                    break;
+                case "discount procent":
+                    DiscountProcent discountProcent = new DiscountProcent();
+                    discountProcent.AplicareReducereCategorie();
+                    break;
+                case "discount fix":
+                    DiscountFix discountFix = new DiscountFix();
+                    discountFix.AplicareReducereCategorie();
                     break;
                 default:
                     Console.WriteLine("Nu exista acest tip de reducere.");
@@ -395,7 +428,8 @@ namespace ECommerceApp.Utilizatori
         }
 
 
-       
+
     }
 
 }
+
