@@ -9,7 +9,7 @@ namespace ECommerceApp
 {
     internal class MetodeURMARIRE
     {
-        private string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Facultate/ANUL_2/POO/CommerceAPP/ECommerceApp.accdb";
+        private string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\VisualStudioCommunityProjects\ProiectPOO\ECommerceApp\ECommerceApp.accdb";
         internal bool AfiseazaComenziClient(string nume, string prenume)
         {
             string query = @" SELECT ID FROM COMENZI WHERE Nume_Client = @nume AND Prenume_Client = @prenume";
