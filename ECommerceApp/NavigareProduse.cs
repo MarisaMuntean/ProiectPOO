@@ -13,7 +13,7 @@ namespace ECommerceApp
 
         public void VizualizeazaProduse()
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\Facultate\ANUL_2\POO\CommerceAPP\ECommerceApp.accdb;";
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\VisualStudioCommunityProjects\ProiectPOO\ECommerceApp\ECommerceApp.accdb";
 
             using OleDbConnection connection = new OleDbConnection(connectionString) ;
             string query = "SELECT  ID, NumeProdus, Descriere, Pret, Stoc,Evaluare, Categorie FROM PRODUS";
