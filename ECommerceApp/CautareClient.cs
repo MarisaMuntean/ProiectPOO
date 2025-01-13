@@ -11,6 +11,8 @@ namespace ECommerceApp
     {
         internal object CautareUtilizator(string raspuns)
         {
+            
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\VisualStudioCommunityProjects\ProiectPOO\ECommerceApp\ECommerceApp.accdb";
             if (raspuns == "da" || raspuns == "Da" || raspuns == "DA" || raspuns == "dA")
             {
                 Console.WriteLine("introduceti numele de familie: ");
@@ -19,7 +21,6 @@ namespace ECommerceApp
                 string prenume = Console.ReadLine();
 
                 // Conexiunea către baza de date
-                string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Facultate/ANUL_2/POO/CommerceAPP/ECommerceApp.accdb;";
                 string query = "SELECT * FROM UTILIZATOR WHERE Nume = @nume AND Prenume = @prenume";
 
                 using (OleDbConnection connection = new OleDbConnection(connectionString))
