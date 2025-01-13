@@ -10,9 +10,10 @@ namespace ECommerceApp
 {
     internal class CreeareCONT
     {
+        
+        private string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\VisualStudioCommunityProjects\ProiectPOO\ECommerceApp\ECommerceApp.accdb";
         internal void CreareCont(Client clientNou)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Facultate/ANUL_2/POO/CommerceAPP/ECommerceApp.accdb";
             string query = "INSERT INTO UTILIZATOR ( Nume, Prenume, [E-mail], NrTelefon, Adresa, Administrator) VALUES (@nume, @prenume, @mail,@telefon,@adresa, @admin)";
 
             using (OleDbConnection connection = new OleDbConnection(connectionString))
@@ -41,7 +42,6 @@ namespace ECommerceApp
         }
         internal void CreareContAdmin(Admin adminNou)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\VisualStudioCommunityProjects\ProiectPOO\ECommerceApp\ECommerceApp.accdb";
             string query = "INSERT INTO UTILIZATOR ( Nume, Prenume, [E-mail], NrTelefon, Adresa, Administrator) VALUES (@nume, @prenume, @mail,@telefon,@adresa, @admin)";
 
             using (OleDbConnection connection = new OleDbConnection(connectionString))
