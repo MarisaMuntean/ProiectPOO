@@ -13,7 +13,8 @@ namespace ECommerceApp
     {
         internal void FisaDeComanda(int idClient, string metodaPlata, string adresaLivrare)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Facultate/ANUL_2/POO/CommerceAPP/ECommerceApp.accdb";
+            string connectionString = 
+            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\VisualStudioCommunityProjects\ProiectPOO\ECommerceApp\ECommerceApp.accdb";;
 
             // Query pentru detalii client
             string selectClientQuery = "SELECT Nume, Prenume FROM UTILIZATOR WHERE ID = @idClient";
