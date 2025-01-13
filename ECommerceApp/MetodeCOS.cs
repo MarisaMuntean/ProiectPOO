@@ -11,9 +11,10 @@ namespace ECommerceApp
 {
     internal class MetodeCOS
     {
+        string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=E:\VisualStudioCommunityProjects\ProiectPOO\ECommerceApp\ECommerceApp.accdb";
         internal void AdaugaInCos(int idClient, int idProdus, int cantitate)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Facultate/ANUL_2/POO/CommerceAPP/ECommerceApp.accdb;";
+            
 
             string selectStocQuery = "SELECT Stoc FROM PRODUS WHERE ID = @idProdus";
             string insertCosQuery = "INSERT INTO COS (ID_Client, ID_Produs, Cantitate) VALUES (@idClient, @idProdus, @cantitate)";
@@ -61,7 +62,6 @@ namespace ECommerceApp
 
         internal void ModificaCantitate(int idClient, int idProdus, int cantitateNoua)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Facultate/ANUL_2/POO/CommerceAPP/ECommerceApp.accdb;";
          
             string selectCosQuery = "SELECT Cantitate FROM COS WHERE ID_Client = @idClient AND ID_Produs = @idProdus";
             string selectStocQuery = "SELECT Stoc FROM PRODUS WHERE ID = @idProdus";
@@ -120,7 +120,6 @@ namespace ECommerceApp
         
         internal void EliminaDinCos(int idClient, int idProdus)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Facultate/ANUL_2/POO/CommerceAPP/ECommerceApp.accdb;";
             string selectCosQuery = "SELECT Cantitate FROM COS WHERE ID_Client = @idClient AND ID_Produs = @idProdus";
             string deleteCosQuery = "DELETE FROM COS WHERE ID_Client = @idClient AND ID_Produs = @idProdus";
             string updateStocQuery = "UPDATE PRODUS SET Stoc = Stoc + @cantitate WHERE ID = @idProdus";
@@ -163,7 +162,6 @@ namespace ECommerceApp
 
         internal void AfiseazaCos(int idClient)
         {
-            string connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:/Facultate/ANUL_2/POO/CommerceAPP/ECommerceApp.accdb;";
             using (OleDbConnection connection = new OleDbConnection(connectionString))
             {
                 string query = "SELECT P.NumeProdus, C.Cantitate FROM COS C INNER JOIN PRODUS P ON C.ID_Produs = P.ID WHERE C.ID_Client = @idClient";
