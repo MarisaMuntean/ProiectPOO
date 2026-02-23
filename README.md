@@ -5,16 +5,16 @@ It provides distinct functionalities for two types of users — **Clients** and 
 
 ---
 
-## 🧭 Project Overview
+## Project Overview
 
 The application is built as part of an Object-Oriented Programming project and demonstrates the application of inheritance, abstraction, polymorphism, and encapsulation through a real-world scenario — an online store.  
 It integrates a **Microsoft Access** database and implements features for both end-users and store administrators.
 
 ---
 
-## 👥 Roles and Functionalities
+## Roles and Functionalities
 
-### 🛒 Client
+### Client
 The **Client** can:
 - Browse available products  
 - Manage the shopping cart:
@@ -45,7 +45,7 @@ The **Client** can:
 
 ---
 
-### ⚙️ Administrator
+### Administrator
 The **Administrator** manages store operations:
 - Manage product database (add, edit, delete, view)
 - Manage and track customer orders
@@ -60,7 +60,7 @@ The **Administrator** manages store operations:
 
 ---
 
-### 🏷 Discount System
+### Discount System
 The **Discount** class hierarchy manages various types of price reductions:
 - **Base class:** `Reducere`  
 - **Derived classes:**  
@@ -72,7 +72,7 @@ Each child class overrides the inherited methods to apply the appropriate reduct
 
 ---
 
-### 🏬 Store Class
+### Store Class
 - `Magazin` is the central coordination class.  
 - Distinguishes between **Client** and **Admin** using the method `IdentitateUtilizator`.  
 - The method `DeschidereAplicatie` launches the correct interface (`MagazinAdmin` or `MagazinClient`) based on the user’s role.
@@ -82,7 +82,7 @@ Each child class overrides the inherited methods to apply the appropriate reduct
 
 ---
 
-## 🧰 Technologies Used
+## Technologies Used
 
 - **Visual Studio 2022** — development environment  
 - **Microsoft Access** — database backend  
@@ -94,7 +94,7 @@ Each child class overrides the inherited methods to apply the appropriate reduct
 
 ---
 
-## 👩‍💻 Team Organization
+## Team Organization
 
 - **Marisa Muntean** — Administrator logic and data management  
 - **Janina Pârvuleţu** — Client logic and interaction system  
@@ -102,7 +102,7 @@ Each child class overrides the inherited methods to apply the appropriate reduct
 
 ---
 
-## 🚀 How to Run
+## How to Run
 
 ### Prerequisites
 - .NET Framework installed  
